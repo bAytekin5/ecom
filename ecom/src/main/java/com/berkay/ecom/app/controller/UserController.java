@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,11 +29,11 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
-        User user = userService.fetchUser(id);
+        Optional<User> user = userService.fetchUser(id);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(user.get());
     }
 
     @PostMapping("/users")
