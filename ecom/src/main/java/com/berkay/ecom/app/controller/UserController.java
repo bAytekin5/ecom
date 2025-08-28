@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,9 +39,15 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<List<User>> createUser(@RequestBody User user) {
-        userService.addUser(user);
-        return ResponseEntity.ok(userService.fetchAllUsers());
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+
+        User saved = userService.addUser(user);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(saved.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(saved);
     }
 
     @PutMapping("/users/update/{id}")

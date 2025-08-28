@@ -21,10 +21,11 @@ public class UserService {
 //        return users;
     }
 
-    public void addUser(User user) {
+    public User addUser(User user) {
         userRepository.save(user);
 //        user.setId(nextId++);
 //        users.add(user);
+        return user;
     }
 
     public Optional<User> fetchUser(Long id) {
