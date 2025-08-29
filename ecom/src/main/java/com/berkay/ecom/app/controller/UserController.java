@@ -1,6 +1,9 @@
 package com.berkay.ecom.app.controller;
 
 
+import com.berkay.ecom.app.dto.UserRequest;
+import com.berkay.ecom.app.dto.UserResponse;
+import com.berkay.ecom.app.dto.mapper.UserMapper;
 import com.berkay.ecom.app.model.User;
 import com.berkay.ecom.app.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,40 +25,36 @@ public class UserController {
 
     private final Logger log = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
         return new ResponseEntity<>(userService.fetchAllUsers(), HttpStatus.OK);
 //        return ResponseEntity.ok(userService.fetchAllUsers());
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
-        Optional<User> user = userService.fetchUser(id);
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.ok(user.get());
+    public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
+        return userService.fetchUser(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest request) {
 
-        User saved = userService.addUser(user);
+        User saved = userService.addUser(request);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(saved.getId())
                 .toUri();
-        return ResponseEntity.created(location).body(saved);
+        return ResponseEntity.created(location).body(userMapper.mapToUserResponse(saved));
     }
 
     @PutMapping("/users/update/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User user) {
-        boolean success = userService.updateUser(id, user);
-        if (success) {
-            return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
-        }
-        return new ResponseEntity<>("User update failed", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody UserRequest updatedUserRequest) {
+        User updated = userService.updateUser(id, updatedUserRequest);
+        return ResponseEntity.ok(userMapper.mapToUserResponse(updated));
     }
 }
