@@ -1,10 +1,8 @@
 package com.berkay.ecom.app.service;
 
-import com.berkay.ecom.app.dto.AddressDTO;
-import com.berkay.ecom.app.dto.UserRequest;
-import com.berkay.ecom.app.dto.UserResponse;
+import com.berkay.ecom.app.dto.user.UserRequest;
+import com.berkay.ecom.app.dto.user.UserResponse;
 import com.berkay.ecom.app.dto.mapper.UserMapper;
-import com.berkay.ecom.app.model.Address;
 import com.berkay.ecom.app.model.User;
 import com.berkay.ecom.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

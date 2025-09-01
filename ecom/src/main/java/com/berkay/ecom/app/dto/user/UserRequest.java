@@ -1,7 +1,6 @@
-package com.berkay.ecom.app.dto;
+package com.berkay.ecom.app.dto.user;
 
-import com.berkay.ecom.app.model.UserRole;
-import lombok.Builder;
+import com.berkay.ecom.app.dto.address.AddressDTO;
 import lombok.Data;
 
 @Data

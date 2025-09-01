@@ -1,4 +1,4 @@
-package com.berkay.ecom.app.dto;
+package com.berkay.ecom.app.dto.address;
 
 import lombok.Builder;
 import lombok.Data;

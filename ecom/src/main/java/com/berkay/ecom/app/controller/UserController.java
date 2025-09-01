@@ -1,8 +1,8 @@
 package com.berkay.ecom.app.controller;
 
 
-import com.berkay.ecom.app.dto.UserRequest;
-import com.berkay.ecom.app.dto.UserResponse;
+import com.berkay.ecom.app.dto.user.UserRequest;
+import com.berkay.ecom.app.dto.user.UserResponse;
 import com.berkay.ecom.app.dto.mapper.UserMapper;
 import com.berkay.ecom.app.model.User;
 import com.berkay.ecom.app.service.UserService;
@@ -16,7 +16,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
