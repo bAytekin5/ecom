@@ -1,5 +1,6 @@
 package com.berkay.ecom.app.service;
 
+import com.berkay.ecom.app.dto.order.OrderItemDTO;
 import com.berkay.ecom.app.dto.order.OrderResponse;
 import com.berkay.ecom.app.model.CartItem;
 import com.berkay.ecom.app.model.Order;
@@ -60,6 +61,24 @@ public class OrderService {
 
         Order savedOrder = orderRepository.save(order);
         cartService.clearCart(userId);
-        return Optional.of(mapToOrderResponse(Order savedOrder));
+        return Optional.of(mapToOrderResponse(savedOrder));
+    }
+
+    private OrderResponse mapToOrderResponse(Order savedOrder) {
+        return new OrderResponse(
+                savedOrder.getId(),
+                savedOrder.getTotalAmount(),
+                savedOrder.getStatus(),
+                savedOrder.getItems().stream()
+                        .map(orderItem -> new OrderItemDTO(
+                                orderItem.getId(),
+                                orderItem.getProduct().getId(),
+                                orderItem.getQuantity(),
+                                orderItem.getPrice(),
+                                orderItem.getPrice().multiply(new BigDecimal(orderItem.getQuantity()))
+                        ))
+                        .toList(),
+                savedOrder.getCreatedAt()
+        );
     }
 }
