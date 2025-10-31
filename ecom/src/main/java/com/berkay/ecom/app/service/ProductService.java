@@ -69,9 +69,6 @@ public class ProductService {
                     productRepository.save(product);
                     return true;
                 }).orElse(false);
-//        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
-//        product.setActive(false);
-//        productRepository.save(product);
     }
 
     public List<ProductResponse> searchProducts(String keyword) {
