@@ -29,7 +29,7 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         return new ResponseEntity<>(userService.fetchAllUsers(), HttpStatus.OK);
-//        return ResponseEntity.ok(userService.fetchAllUsers());
+
     }
 
     @GetMapping("/users/{id}")
